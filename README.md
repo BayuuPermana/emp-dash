@@ -1,75 +1,72 @@
-# React + TypeScript + Vite
+# AttendTrack - Employee Management Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a full-featured employee management dashboard built with a React frontend and a Node.js (Express) backend. It provides a clean and modern UI for tracking employee attendance, with features like search, filtering, pagination, and data export.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Dashboard Overview:** At-a-glance statistics for total employees, present staff, late arrivals, and employees on leave.
+- **Employee List:** A detailed table of all employees, with their clock-in/out times, total hours, and attendance status.
+- **Search:** Instantly find employees by name.
+- **Filtering:** Filter the employee list by attendance status (On Time, Late, Absent).
+- **Pagination:** Navigate through the employee list with easy-to-use pagination controls.
+- **Export Data:** Export the filtered employee list to a CSV file.
 
-## React Compiler
+## Technologies Used
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- **Frontend:**
+  - React
+  - TypeScript
+  - Vite
+  - CSS
 
-Note: This will impact Vite dev & build performances.
+- **Backend:**
+  - Node.js
+  - Express
+  - Bun
+  - TypeScript
+  - CORS
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+To get a local copy up and running, follow these simple steps.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- [Bun](https://bun.sh/)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Installation & Setup
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/your-username/your-repository.git
+   cd your-repository
+   ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2. **Install frontend dependencies:**
+   ```sh
+   bun install
+   ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+3. **Install backend dependencies:**
+   ```sh
+   cd backend
+   bun install
+   ```
+
+### Running the Application
+
+1. **Start the backend server:**
+   - From the `backend` directory, run:
+   ```sh
+   bun run index.ts
+   ```
+   - The backend server will start on `http://localhost:3001`.
+
+2. **Start the frontend development server:**
+   - From the root project directory, run:
+   ```sh
+   bun run dev
+   ```
+   - The frontend application will be available at `http://localhost:5173`.
+
+Now, you can open your browser and navigate to `http://localhost:5173` to see the application in action.

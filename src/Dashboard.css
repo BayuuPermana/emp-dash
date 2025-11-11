@@ -1,0 +1,13 @@
+/* src/Dashboard.css */
+.dashboard {
+  display: flex;
+  background-color: #fff;
+  height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #f4f7fc;
+  overflow: auto;
+}
