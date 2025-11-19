@@ -1,11 +1,11 @@
 /* src/components/EmployeeList.css */
 .employee-list {
   background-color: #fff;
-  padding: 24px 32px;
+  padding: 24px;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   border: none;
-  margin: 0 32px 32px 32px;
+  margin: 0 24px 24px 24px;
 }
 
 .toolbar {
