@@ -1,8 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import './EmployeeList.css';
 
 interface Employee {
+  _id: string;
   name: string;
+  email: string;
+  position: string;
+  department: string;
+}
+
+interface Attendance {
+  employeeId: { _id: string } | string;
+  date: string;
+  clockIn: string;
+  clockOut: string;
+  status: string;
+  totalHours: string;
+}
+
+interface EmployeeView extends Employee {
   clockIn: string;
   clockOut: string;
   totalHours: string;
@@ -10,20 +27,60 @@ interface Employee {
 }
 
 const EmployeeList: React.FC = () => {
-  const [employees, setEmployees] = useState<Employee[]>([]);
-  const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
+  const [employees, setEmployees] = useState<EmployeeView[]>([]);
+  const [filteredEmployees, setFilteredEmployees] = useState<EmployeeView[]>([]);
   const [activeFilter, setActiveFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
+  const { user } = useAuth();
+
   useEffect(() => {
-    fetch('http://localhost:3001/api/employees')
-      .then(response => response.json())
-      .then(data => {
-        setEmployees(data);
-      });
-  }, []);
+    const fetchData = async () => {
+      if (!user?.token) return;
+
+      try {
+        // Fetch Employees
+        const empRes = await fetch('http://localhost:3001/api/employees', {
+          headers: { 'Authorization': `Bearer ${user.token}` }
+        });
+        const empData: Employee[] = await empRes.json();
+
+        // Fetch Attendance (All for now, ideally filter by date)
+        const attRes = await fetch('http://localhost:3001/api/attendance', {
+          headers: { 'Authorization': `Bearer ${user.token}` }
+        });
+        const attData: Attendance[] = await attRes.json();
+
+        const today = new Date().toISOString().split('T')[0];
+
+        // Merge Data
+        const mergedData: EmployeeView[] = empData.map(emp => {
+          // Find attendance for this employee for today
+          const attendance = attData.find(a => {
+            const empId = typeof a.employeeId === 'object' ? a.employeeId._id : a.employeeId;
+            return empId === emp._id && a.date === today;
+          });
+
+          return {
+            ...emp,
+            clockIn: attendance?.clockIn || '-',
+            clockOut: attendance?.clockOut || '-',
+            totalHours: attendance?.totalHours || '-',
+            status: attendance?.status || 'Absent'
+          };
+        });
+
+        setEmployees(mergedData);
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [user]);
 
   useEffect(() => {
     let filtered = employees;
@@ -92,7 +149,7 @@ const EmployeeList: React.FC = () => {
           value={searchQuery}
           onChange={handleSearchChange}
         />
-        <input type="date" />
+        <input type="date" defaultValue={new Date().toISOString().split('T')[0]} />
         <button className="export-btn" onClick={handleExportData}>Export Data</button>
       </div>
       <div className="filters">
@@ -123,7 +180,11 @@ const EmployeeList: React.FC = () => {
               <td>{employee.clockIn}</td>
               <td>{employee.clockOut}</td>
               <td>{employee.totalHours}</td>
-              <td><span className={`status ${employee.status.toLowerCase().replace(' ', '-')}`}>{employee.status}</span></td>
+              <td>
+                <span className={`status ${employee.status ? employee.status.toLowerCase().replace(' ', '-') : 'absent'}`}>
+                  {employee.status}
+                </span>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -132,10 +193,10 @@ const EmployeeList: React.FC = () => {
         <span>Showing {paginatedEmployees.length} of {filteredEmployees.length} results</span>
         <div>
           <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
-          {[...Array(totalPages)].map((_, i) => (
+          {[...Array(totalPages || 0)].map((_, i) => (
             <button key={i} onClick={() => handlePageChange(i + 1)} className={currentPage === i + 1 ? 'active' : ''}>{i + 1}</button>
           ))}
-          <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>Next</button>
+          <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages || totalPages === 0}>Next</button>
         </div>
       </div>
     </div>

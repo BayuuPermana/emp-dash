@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import {
   LayoutDashboard,
   FileText,
@@ -6,16 +8,29 @@ import {
   LifeBuoy,
   LogOut,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Users
 } from 'lucide-react';
 import './Sidebar.css';
 
 const Sidebar: React.FC = () => {
+  console.log("Rendering Sidebar");
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const location = useLocation();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
+
+  const handleLogout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    logout();
+    navigate('/login');
+  };
+
+  const isActive = (path: string) => location.pathname === path ? 'active' : '';
 
   return (
     <div className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
@@ -32,23 +47,29 @@ const Sidebar: React.FC = () => {
 
       <nav>
         <ul>
-          <li className="active">
-            <a href="#">
+          <li className={isActive('/admin')}>
+            <Link to="/admin">
               <LayoutDashboard size={20} />
               <span>Dashboard</span>
-            </a>
+            </Link>
           </li>
-          <li>
-            <a href="#">
+          <li className={isActive('/admin/employees')}>
+            <Link to="/admin/employees">
+              <Users size={20} />
+              <span>Employees</span>
+            </Link>
+          </li>
+          <li className={isActive('/admin/reports')}>
+            <Link to="/admin/reports">
               <FileText size={20} />
               <span>Reports</span>
-            </a>
+            </Link>
           </li>
-          <li>
-            <a href="#">
+          <li className={isActive('/admin/settings')}>
+            <Link to="/admin/settings">
               <Settings size={20} />
               <span>Settings</span>
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
@@ -62,7 +83,7 @@ const Sidebar: React.FC = () => {
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="#" onClick={handleLogout}>
               <LogOut size={20} />
               <span>Logout</span>
             </a>

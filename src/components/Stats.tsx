@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import './Stats.css';
 
 interface StatsData {
@@ -11,11 +12,20 @@ interface StatsData {
 const Stats: React.FC = () => {
   const [stats, setStats] = useState<StatsData | null>(null);
 
+  const { user } = useAuth();
+
   useEffect(() => {
-    fetch('http://localhost:3001/api/stats')
-      .then(response => response.json())
-      .then(data => setStats(data));
-  }, []);
+    if (user?.token) {
+      fetch('http://localhost:3001/api/attendance/stats', {
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      })
+        .then(response => response.json())
+        .then(data => setStats(data))
+        .catch(err => console.error(err));
+    }
+  }, [user]);
 
   return (
     <div className="stats">
