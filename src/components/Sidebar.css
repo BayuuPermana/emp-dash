@@ -8,6 +8,13 @@
   height: 100vh;
   border-right: 1px solid #e0e0e0;
   box-sizing: border-box;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+  padding: 24px 12px;
 }
 
 .logo {
@@ -15,13 +22,29 @@
   align-items: center;
   margin-bottom: 40px;
   padding-left: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.logo img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+.logo-icon {
+  flex-shrink: 0;
   margin-right: 12px;
+}
+
+.sidebar.collapsed .logo-icon {
+  margin-right: 0;
+}
+
+.logo-text {
+  transition: opacity 0.2s, width 0.2s;
+  opacity: 1;
+  width: auto;
+}
+
+.sidebar.collapsed .logo-text {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
 }
 
 .logo h2 {
@@ -55,6 +78,33 @@ nav ul li a {
   border-radius: 8px;
   font-weight: 500;
   transition: background-color 0.2s, color 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar.collapsed nav ul li a {
+  justify-content: center;
+  padding: 12px;
+}
+
+nav ul li a svg {
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.sidebar.collapsed nav ul li a svg {
+  margin-right: 0;
+}
+
+nav ul li a span {
+  transition: opacity 0.2s;
+  opacity: 1;
+}
+
+.sidebar.collapsed nav ul li a span {
+  opacity: 0;
+  width: 0;
+  display: none;
 }
 
 nav ul li a:hover {
@@ -90,4 +140,55 @@ nav ul li.active a {
   border-radius: 8px;
   font-weight: 500;
   transition: background-color 0.2s, color 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .sidebar-footer ul li a {
+  justify-content: center;
+  padding: 12px;
+}
+
+.sidebar-footer ul li a svg {
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.sidebar.collapsed .sidebar-footer ul li a svg {
+  margin-right: 0;
+}
+
+.sidebar-footer ul li a span {
+  transition: opacity 0.2s;
+  opacity: 1;
+}
+
+.sidebar.collapsed .sidebar-footer ul li a span {
+  opacity: 0;
+  width: 0;
+  display: none;
+}
+
+.toggle-btn {
+  position: absolute;
+  top: 28px;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #555;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  z-index: 10;
+  transition: transform 0.2s;
+}
+
+.toggle-btn:hover {
+  background-color: #f9fafb;
+  color: #312e81;
 }
