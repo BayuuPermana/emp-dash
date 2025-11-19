@@ -5,7 +5,10 @@ const Sidebar: React.FC = () => {
   return (
     <div className="sidebar">
       <div className="logo">
-        <img src="https://via.placeholder.com/40" alt="AttendTrack Logo" />
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '12px' }}>
+          <rect width="40" height="40" rx="8" fill="#4F46E5" />
+          <path d="M20 10L28 24H12L20 10Z" fill="white" />
+        </svg>
         <div>
           <h2>AttendTrack</h2>
           <p>HR Management</p>

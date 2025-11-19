@@ -74,6 +74,15 @@ const EmployeeList: React.FC = () => {
 
   const totalPages = Math.ceil(filteredEmployees.length / itemsPerPage);
 
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+  };
+
   return (
     <div className="employee-list">
       <div className="toolbar">
@@ -108,7 +117,7 @@ const EmployeeList: React.FC = () => {
             <tr key={index}>
               <td><input type="checkbox" /></td>
               <td>
-                <img src={`https://via.placeholder.com/30`} alt={employee.name} />
+                <div className="avatar">{getInitials(employee.name)}</div>
                 {employee.name}
               </td>
               <td>{employee.clockIn}</td>

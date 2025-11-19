@@ -1,6 +1,6 @@
 /* src/components/Sidebar.css */
 .sidebar {
-  width: 280px;
+  width: 260px;
   background-color: #fff;
   padding: 24px;
   display: flex;
@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 40px;
-  padding-left: 10px;
+  padding-left: 0;
 }
 
 .logo img {
@@ -68,7 +68,7 @@ nav ul li.active a {
 
 .sidebar-footer {
   margin-top: auto;
-  padding-left: 10px;
+  padding-left: 0;
 }
 
 .sidebar-footer ul {
